@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = {
   config: {
     name: "help",
-    version: "3.4", // upgraded version
+    version: "3.5", // upgraded version
     author: "Arafat",
     countDown: 5,
     role: 0,
@@ -14,7 +14,7 @@ module.exports = {
     guide: { en: "{p}help [command name]" }
   },
 
-  onStart: async function ({ message, args, prefix, api, event }) {
+  onStart: async function ({ message, args, prefix }) {
     const commandsPath = path.join(__dirname, ".."); 
     const categories = {};
     const allCommands = new Set();
@@ -74,13 +74,7 @@ module.exports = {
 ╰────────────────────❏
               `.trim();
 
-              return message.reply(info, (err, infoMsg) => {
-                if (!err && infoMsg) {
-                  setTimeout(() => {
-                    api.unsendMessage(infoMsg.messageID);
-                  }, 15000);
-                }
-              });
+              return message.reply(info);
             }
           }
         }
@@ -104,13 +98,7 @@ module.exports = {
     output += `╰‣ https://fb.com/rafsan.ahmed.69\n\n`;
     output += `⭔ 𝐓𝐲𝐩𝐞 ${prefix}help <command> 𝐭𝐨 𝐥𝐞𝐚𝐫𝐧 𝐮𝐬𝐚𝐠𝐞.`;
 
-    message.reply(output, (err, infoMsg) => {
-      if (!err && infoMsg) {
-        setTimeout(() => {
-          api.unsendMessage(infoMsg.messageID);
-        }, 15000);
-      }
-    });
+    message.reply(output);
   }
 };
 
@@ -140,4 +128,4 @@ function roleText(role) {
     case 2: return "2 (Bot Admins)";
     default: return "Unknown role";
   }
-		  }
+}
