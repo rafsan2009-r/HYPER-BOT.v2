@@ -1,63 +1,75 @@
-const axios = require('axios');
-const fs = require('fs');
+const axios = require("axios");
 
-const xyz = "ArYANAHMEDRUDRO";
+const mahmud = async () => {
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+  return base.data.mahmud;
+};
+
+/**
+* @author MahMUD
+* @author: do not delete it
+*/
 
 module.exports = {
- config: {
- name: "4k",
- version: "1.0.0",
- hasPermssion: 0,
- credits: "—͟͟͞͞𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️ ",
- premium: false,
- description: "Enhance Photo - Image Generator",
- commandCategory: "Image Editing Tools",
- usages: "Reply to an image or provide image URL",
- cooldowns: 5,
- dependencies: {
- path: "",
- 'fs-extra': ""
- }
- },
+  config: {
+    name: "4k",
+    version: "1.7",
+    author: "MahMUD",
+    countDown: 10,
+    role: 0,
+    category: "image",
+    description: "Enhance or restore image quality using 4k AI.",
+    guide: {
+      en: "{pn} [url] or reply with image"
+    }
+  },
 
- run: async function({ api, event, args }) {
- const tempImagePath = __dirname + '/cache/enhanced_image.jpg';
- const { threadID, messageID } = event;
+  onStart: async function ({ message, event, args }) {
+    
+    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68); 
+    if (module.exports.config.author !== obfuscatedAuthor) {
+      return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+    }
+    const startTime = Date.now();
+    let imgUrl;
 
- const imageUrl = event.messageReply ? 
- event.messageReply.attachments[0].url : 
- args.join(' ');
+    if (event.messageReply?.attachments?.[0]?.type === "photo") {
+      imgUrl = event.messageReply.attachments[0].url;
+    }
 
- if (!imageUrl) {
- api.sendMessage("Please reply to an image or provide an image URL", threadID, messageID);
- return;
- }
+    else if (args[0]) {
+      imgUrl = args.join(" ");
+    }
 
- try {
- const processingMsg = await api.sendMessage("𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 𝐁𝐚𝐛𝐲...😘", threadID);
+    if (!imgUrl) {
+      return message.reply("Baby, Please reply to an image or provide an image URL");
+    }
+  
+    const waitMsg = await message.reply("ð‹ð¨ðšðð¢ð§ð  ðŸ’ð¤ ð¢ð¦ðšð ðž...ð°ðšð¢ð­ ð›ðšð›ð² <ðŸ˜˜");
+    message.reaction("ðŸ˜˜", event.messageID);
 
- const apiUrl = `https://aryan-xyz-upscale-api-phi.vercel.app/api/upscale-image?imageUrl=${encodeURIComponent(imageUrl)}&apikey=${xyz}`;
+    try {
+      
+      const apiUrl = `${await mahmud()}/api/hd?imgUrl=${encodeURIComponent(imgUrl)}`;
 
- const enhancementResponse = await axios.get(apiUrl);
- const enhancedImageUrl = enhancementResponse.data?.resultImageUrl;
+      const res = await axios.get(apiUrl, { responseType: "stream" });
+      if (waitMsg?.messageID) message.unsend(waitMsg.messageID);
 
- if (!enhancedImageUrl) {
- throw new Error("Failed to get enhanced image URL.");
- }
+      message.reaction("âœ…", event.messageID);
 
- const enhancedImage = (await axios.get(enhancedImageUrl, { responseType: 'arraybuffer' })).data;
+      const processTime = ((Date.now() - startTime) / 1000).toFixed(2);
 
- fs.writeFileSync(tempImagePath, Buffer.from(enhancedImage, 'binary'));
+      message.reply({
+        body: `âœ… | ð‡ðžð«ðž'ð¬ ð²ð¨ð®ð« ðŸ’ð¤ ð¢ð¦ðšð ðž ð›ðšð›ð²`,
+        attachment: res.data
+      });
 
- api.sendMessage({
- body: "✅ 𝐈𝐦𝐚𝐠𝐞 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐞𝐝 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲!",
- attachment: fs.createReadStream(tempImagePath)
- }, threadID, () => fs.unlinkSync(tempImagePath), messageID);
+    } catch (error) {
+  
+      if (waitMsg?.messageID) message.unsend(waitMsg.messageID);
 
- api.unsendMessage(processingMsg.messageID);
-
- } catch (error) {
- api.sendMessage(`❌ Error`, threadID, messageID);
- }
- }
+      message.reaction("âŽ", event.messageID);
+      message.reply(`ðŸ¥¹error baby, contact MahMUD.`);
+    }
+  }
 };
