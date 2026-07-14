@@ -34,8 +34,8 @@ module.exports = {
 ╠═════════════════════ ✿
 ║ 👑 𝗡𝗮𝗺𝗲 : RAFSAN AHMED 
 ║ 🧸 𝗡𝗶𝗰𝗸 𝗡𝗮𝗺𝗲 : RAFSAN
-║ 🎂 𝗔𝗴𝗲 : 17+
-║ 💘 𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻 : 𝗦𝗶𝗻𝗴𝗹𝗲 Apatoto
+║ 🎂 𝗔𝗴𝗲 : 18+
+║ 💘 𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻 : IN RELATIONSHIP
 ║ 🎓 𝗣𝗿𝗼𝗳𝗲𝘀𝘀𝗶𝗼𝗻 : 𝗦𝘁𝘂𝗱𝗲𝗻𝘁
 ║ 📚 𝗘𝗱𝘂𝗰𝗮𝘁𝗶𝗼𝗻 : Tumi jaina ki korba
 ║ 🏡 𝗔𝗱𝗱𝗿𝗲𝘀𝘀 : MIRPUR, 𝐁𝐚𝐧𝐠𝐥𝐚𝐝𝐞𝐬𝐡
